@@ -100,4 +100,4 @@ bash run_swfit.sh
 ## Dataset and Model
 
 - **Dataset**: The SQLFlow dataset is publicly available on Hugging Face Hub: [debugger123/SQLFlow](https://huggingface.co/datasets/debugger123/SQLFlow).
-- **Embedding Model**: The embedding model used for few-shot example retrieval is also hosted on Hugging Face Hub: [xccr/SQLFlow-Retrieval-0.6B](https://huggingface.co/xccr/SQLFlow-Retrieval-0.6B).
+- **Embedding Model**: The embedding model used for few-shot example retrieval is also hosted on Hugging Face Hub: [xccr/SQLFlow-Retrieval-0.6B](https://huggingface.co/xccr/SQLFlow-Retrival-0.6B).
