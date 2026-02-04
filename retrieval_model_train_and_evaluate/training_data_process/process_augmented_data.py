@@ -2,6 +2,7 @@ import json
 import re
 # import spacy
 from tqdm import tqdm
+import argparse
 
 TOKENIZER_PATTERN = re.compile(r"-?\d+\.?\d*|\w+|[^\w\s]")
 
@@ -16,7 +17,9 @@ def process_and_filter_data(data):
     """
     new_list = []
     for item in tqdm(data, desc="Processing data"):
-        if 'query' not in item and 'sql' in item:
+        if 'query' not in item and 'SQL' in item:
+            item['query'] = item['SQL']
+        elif 'query' not in item and 'sql' in item:
             item['query'] = item['sql']
         
         if 'query' in item and isinstance(item['query'], str):
@@ -41,17 +44,23 @@ def remove_sql_comments(sql_string: str) -> str:
     return cleaned_sql
 
 def main():
-    data = load_data("train_augmented.json")
+    data = load_data(args.input_file)
+
+    data = process_and_filter_data(data)
 
     for item in data:
         if 'query' in item:
             item['query'] = remove_sql_comments(item['query'])
             # item['query'] = item['query'].replace('\n', ' ').strip()
 
-    with open("train_augmented.json", "w", encoding="utf-8") as f:
+    with open(args.output_file, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         
     print(f"{len(data)} data for alignment model training.")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input_file", type=str, required=True)
+    parser.add_argument("--output_file", type=str, required=True)
+    args = parser.parse_args()
     main()

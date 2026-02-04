@@ -4,10 +4,7 @@ import re
 from sqlparse import parse as Parser
 from tqdm import tqdm
 from spider_match_utils import match_shift
-
-
-import json
-import os
+import argparse
 
 from utils import get_tables, sql2skeleton
 
@@ -21,7 +18,7 @@ class BasicDataset(object):
         self.train_gold = os.path.join(self.path_data, self.train_gold)
         self.table_json = os.path.join(self.path_data, self.table_json)
         self.path_test_schema_linking = os.path.join(self.path_data, "enc/test_schema-linking.jsonl")
-        self.path_train_schema_linking = os.path.join(self.path_data, "enc/train_schema-linking_var.jsonl")
+        self.path_train_schema_linking = os.path.join(self.path_data, "enc/train_schema-linking.jsonl")
         if self.mini_test_index_json:
             self.mini_test_index_json = os.path.join(self.path_data, self.mini_test_index_json)
         else:
@@ -92,10 +89,10 @@ class BasicDataset(object):
         if queries:
             skeletons = []
             cnt = 0
-            for query,schema in zip(queries, schemas):
-                print("Processing query:", query)
+            for query,schema in tqdm(zip(queries, schemas)):
+                # print("Processing query:", query)
                 cnt += 1
-                print(f"Processing query {cnt}/{len(queries)}")
+                # print(f"Processing query {cnt}/{len(queries)}")
                 skeleton, masked_sql = sql2skeleton(query, schema)
                 skeletons.append(skeleton)
             if mini_set and self.mini_test_index_json:
@@ -243,7 +240,7 @@ class SpiderDataset(BasicDataset):
     test_json = "test.json"
     test_gold = "test_gold.sql"
     # train_json = "train_spider_and_others.json"
-    train_json = "train_varient.json"
+    train_json = "train.json"
     train_gold = "train_gold.sql"
     table_json = "tables.json"
     test_table_json = "test_tables.json"
@@ -265,7 +262,7 @@ class BirdDataset(BasicDataset):
     test_json = "dev.json"
     test_gold = "dev.sql"
     # train_json = "train.json"
-    train_json = "train_varient.json"
+    train_json = "train.json"
     train_gold = "train_gold.sql"
     table_json = "tables.json"
     mini_test_index_json = None
@@ -553,7 +550,7 @@ def mask_question_with_schema_linking(data_jsons, mask_tag, value_tag):
 def get_question_pattern_with_schema_linking(data_jsons):
     question_patterns = []
     for data_json in data_jsons:
-        print(f"data_json['question']: {data_json['question']}")
+        # print(f"data_json['question']: {data_json['question']}")
         sc_link = data_json["sc_link"]
         cv_link = data_json["cv_link"]
         q_col_match = sc_link["q_col_match"]
@@ -586,22 +583,40 @@ def get_question_pattern_with_schema_linking(data_jsons):
 
 
 if __name__ == "__main__":
-    train_json = "train_augmented.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset", type=str, default="spider")
+    parser.add_argument("--train_json", type=str, required=True)
+    parser.add_argument("--path_data", type=str, required=True)
+    parser.add_argument("--out", type=str, default="train_masked.json")
+    args = parser.parse_args()
 
-    with open(train_json, 'r') as f:
+    train_json = args.train_json
+    PATH_DATA = args.path_data
+    dataset_name = args.dataset
+    out_path = args.out
+
+    with open(train_json, "r") as f:
         train_data = json.load(f)
     print(f"len(train_data):{len(train_data)}")
-    PATH_DATA = "/mnt/public/gpfs-jd/data/lh/xc/code/DAIL-SQL/dataset/"
-    data = load_data("spider", PATH_DATA)
+
+    data = load_data(dataset_name, PATH_DATA)
+    data.train_json = train_json
     train_data_masked = data.get_train_json()
     print(f"len(train_data_masked):{len(train_data_masked)}")
+
     assert len(train_data) == len(train_data_masked)
     for i in range(len(train_data)):
-        assert train_data[i]['query'] == train_data_masked[i]['query']
-        assert train_data[i]['question'] == train_data_masked[i]['question']
-        train_data[i]['masked_question'] = train_data_masked[i]['masked_question']
-        train_data[i]['masked_sql'] = train_data_masked[i]['masked_sql']
-    with open("train_augmented_masked.json", 'w') as f:
+        assert train_data[i]["query"] == train_data_masked[i]["query"]
+        assert train_data[i]["question"] == train_data_masked[i]["question"]
+        train_data[i]["masked_question"] = train_data_masked[i]["masked_question"]
+        train_data[i]["masked_sql"] = train_data_masked[i]["masked_sql"]
+
+    with open(out_path, "w") as f:
         json.dump(train_data, f, indent=4)
 
+# python get_masked_sql.py \
+#   --dataset spider \
+#   --train_json /DAIL-SQL/dataset/spider/train_spider.json \
+#   --path_data /DAIL-SQL/dataset/ \
+#   --out train_spider_masked.json
 
