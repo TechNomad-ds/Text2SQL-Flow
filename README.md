@@ -1,4 +1,4 @@
-# Text2SQL-Flow: A SQL-Aware Data Augmentation Framework
+# Text2SQL-Flow: A Robust SQL-Aware Data Augmentation Framework for Text-to-SQL
 
 ## Overview
 
