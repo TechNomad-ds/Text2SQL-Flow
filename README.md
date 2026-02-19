@@ -133,10 +133,11 @@ bash rungenerate_retrieval_prompt_swift.sh
 
 
 ## Downloads
-| **Model and Dataset** | **Description** | **Download Latest on HuggingFace** |
+| **Model / Dataset** | **Description** | **Download Link (HuggingFace)** |
 |---|---|---|
 | SQLFlow | Text-to-SQL dataset | [🤗 debugger123/SQLFlow](https://huggingface.co/datasets/debugger123/SQLFlow) |
-| SQLFlow-Retrieval-0.6B | Embedding model used for few-shot example retrieval | [🤗 xccr/SQLFlow-Retrieval-0.6B](https://huggingface.co/xccr/SQLFlow-Retrieval-0.6B) |
+| SQLFlow-7B | Fine-tuned Qwen2.5-7B-coder for text-to-SQL tasks using the SQLFlow dataset | [🤗 debugger123/SQLFlow-7B](https://huggingface.co/debugger123/SQLFlow-7B) |
+| SQLFlow-Retrieval-0.6B | Embedding model for few-shot example retrieval | [🤗 xccr/SQLFlow-Retrieval-0.6B](https://huggingface.co/xccr/SQLFlow-Retrieval-0.6B) |
 
 ## Bibtex
 If you find Text2SQL-Flow helpful, please consider to cite it. Thank you! :)
