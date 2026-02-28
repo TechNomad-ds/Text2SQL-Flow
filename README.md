@@ -10,7 +10,7 @@
 
 Based on this framework, we introduce SQLFLOW, a high-quality dataset comprising 75,386 annotated examples. The dataset is derived from widely used benchmarks including Spider, BIRD, and EHRSQL, substantially extending their complexity frontiers.
 
-**Paper Link:** [https://arxiv.org/abs/2511.10192v3](https://arxiv.org/abs/2511.10192v3)
+**Paper Link:** [https://arxiv.org/abs/2511.10192v3](https://arxiv.org/abs/2511.10192v4)
 
 **GitHub Link:** [https://github.com/TechNomad-ds/Text2SQL-Flow](https://github.com/TechNomad-ds/Text2SQL-Flow)
 
