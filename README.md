@@ -26,11 +26,41 @@ The dataset includes:
 - **Dual Application**: Text2SQL-Flow supports both fine-tuning and prompt-based settings with masked alignment retrieval.
 
 
+## Applications
+
+Text2SQL-Flow supports two  application paradigms for real-world Text-to-SQL systems: **supervised fine-tuning for open-source LLMs** and **structure-aware retrieval for closed-source LLMs**.
+
+<p align="center">
+  <img src="figures/applications.png" alt="Applications of Text2SQL-Flow for open-source and closed-source LLMs" style="width: 100%; max-width: 1000px;"/>
+</p>
+
+### 1. Supervised Fine-tuning for Open-source LLMs
+
+For open-source models, SQLFLOW serves as supervised training data, enabling the model to learn both SQL generation and step-by-step reasoning from augmented Text-to-SQL examples.
+
+### 2. Structure-aware Retrieval for Closed-source LLMs
+
+For closed-source LLMs, SQLFLOW serves as training data for a retrieval model that learns alignment between questions and SQL queries, supporting retrieval-augmented in-context learning.
+
+- **Question-SQL alignment similarity**: The retrieval model maps questions and SQL queries into a shared embedding space and measures their alignment at the question-query level.
+
+- **Masked alignment retrieval**: To reduce noise from schema-specific details, we applies masking to schema-related tokens, string literals, and numeric values in both questions and SQL queries. This masking strategy is used in both retrieval-model training and inference.
+
+
 ## Performance Evaluation
+
+### 1. Supervised Fine-tuning for Open-source LLMs
 We evaluate models fine-tuned on SQLFLOW across mainstream benchmarks. Under the same data scale, models trained on SQLFLOW consistently outperform those trained on other synthetic datasets like SynSQL.
 
 <p align="center">
   <img src="figures/performance.png" alt="Description" style="width: 100%; max-width: 600px;"/>
+</p>
+
+### 2. Structure-aware Retrieval for Closed-source LLMs
+We further evaluate SQLFLOW in the closed-source setting. Results show that Question-SQL alignment similarity retrieval method consistently outperforms conventional retrieval baselines. When combined with the proposed masked alignment retrieval strategy, performance further improves.
+
+<p align="center">
+  <img src="figures/retrieval_performance.png" alt="Description" style="width: 100%; max-width: 600px;"/>
 </p>
 
 
