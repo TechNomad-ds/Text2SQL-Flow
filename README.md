@@ -175,7 +175,7 @@ If you find Text2SQL-Flow helpful, please consider to cite it. Thank you! :)
 @article{cai2026text2sqlflow,
   title={TEXT2SQL-FLOW: A Robust SQL-Aware Data Augmentation Framework for Text-to-SQL},
   author={Cai, Qifeng and Liang, Hao and Xu, Chang and Xie, Tao and Zhang, Wentao and Cui, Bin},
-  journal={arXiv preprint arXiv:2511.10192v3},
+  journal={arXiv preprint arXiv:2511.10192v4},
   year={2026}
 }
 ```
