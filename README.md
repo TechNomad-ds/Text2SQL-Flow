@@ -161,6 +161,11 @@ cd ../retrieval_stategy
 bash rungenerate_retrieval_prompt_swift.sh
 ```
 
+> **Note:** The above instructions provide only a minimal working example.  
+> For more detailed guidance, please refer to the following modules:
+- **Data Augmentation Pipeline**: see `data_augmentation/README.md`
+- **LLM Fine-tuning and Evaluation**: see `llm_train_and_evaluate/README.md`
+- **Retrieval Model Fine-tuning and Evaluation**: see `retrieval_model_train_and_evaluate/README.md`
 
 ## Downloads
 | **Model / Dataset** | **Description** | **Download Link (HuggingFace)** |
